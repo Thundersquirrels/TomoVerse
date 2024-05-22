@@ -1,0 +1,81 @@
+<!-- FILEPATH: /Users/carsoncox/TomoTesting/src/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TomoVerse</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #home, #game {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        #home h1 {
+            color: #333;
+        }
+
+        #home p {
+            color: #666;
+        }
+
+        #home button, #game button {
+            background-color: #5C6BC0;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #home button:hover, #game button:hover {
+            background-color: #7986CB;
+        }
+    </style>
+</head>
+<body>
+    <div id="home">
+        <p id="totalCoins">Total Coins: 0</p>
+        <p>Click the button below to start a new game or continue an existing one.</p>
+        <button id="start">Start New Game</button>
+        <button id="continue">Continue Game
+            <style>
+                #continue {
+                    display: none;
+                }
+            </style>
+        </button>
+        <a href="phaser.html">
+            <button id="startPhaser">Start Phaser Game</button>
+        </a>
+    </div>
+    <div id="game">
+        <style>
+            #game {
+                display: none;
+            }
+        </style>
+        <h1>TomoVerse</h1>
+        <button id="back">Back to Home</button>
+        <button id="cashout">Cash Out</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+#gameWindow {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 90vw;
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, 0%);
+    background-color: #171717;
+    border: 4px solid #565656;
+}
+
+#player {
+    position: absolute;
+    z-index: 1;
+    transition: all calc(var(--tickLength));
+    width: calc(var(--tileSize) * 0.4);
+    height: calc(var(--tileSize) * 0.4);
+    background-color: #185bb3;
+    transform: translate(-50%, -50%);
+}
+
+#player::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Position the triangle at the bottom of the player */
+    left: 50%; /* Center the triangle horizontally */
+    transform: translateX(-50%); /* Ensure the center of the triangle aligns with the center of the player */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: calc(var(--tileSize) * 0.2) calc(var(--tileSize) * 0.2) 0 calc(var(--tileSize) * 0.2);
+    border-color: #185bb3 transparent transparent transparent;
+}
+
+#energyBar, #healthBar, #coinBar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    border: 1px solid #a4a4a4;
+}
+
+#energyBar .square, #healthBar .square, #coinBar .square {
+    width: calc(var(--hudSize) * 1);
+    height: calc(var(--hudSize) * 1);
+    margin: 2px;
+}
+
+#energyBar .square {
+    background-color: #280dda;
+}
+
+#healthBar .square {
+    background-color: #d21818;
+}
+
+#coinBar .square {
+    width: calc(var(--hudSize) * 0.4);
+    height: calc(var(--hudSize) * 0.4);
+    background-color: #c1bb0f;
+}
+
+#energyBar {
+    top: calc(var(--hudSize) * 2);
+}
+
+#coinBar {
+    top: calc(var(--hudSize) * 3.7);
+}
+
+#player.attackReady {
+    border: 2px solid #bcd218;
+}
+
+.projectile {
+    position: absolute;
+    z-index: 2;
+    transition: all calc(var(--tickLength));
+    width: calc(var(--tileSize) * 0.25);
+    height: calc(var(--tileSize) * 0.25);
+    background-color: #1422e1;
+    transform: translate(-50%, -50%);
+}
+
+#map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--tileSize) * var(--mapWidth));
+    height: calc(var(--tileSize) * var(--mapHeight));
+    transform: translate(-50%, -50%);
+    border: 2px solid #a4a4a4;
+}
+
+#minimap {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: calc(var(--hudSize) * var(--worldMapWidth));
+    height: calc(var(--hudSize) * var(--worldMapHeight));
+    border: 2px solid #a4a4a4;
+    
+}
+
+.miniTile {
+    position: absolute;
+    width: calc(var(--hudSize));
+    height: calc(var(--hudSize));
+    border: 1px solid #494949;
+}
+
+.miniTile {
+    background-color: #1c1c1c;
+}
+
+.playerIcon {
+    background-color: #185bb3;
+}
+
+.mapIcon {
+    background-color: #8b8b8b;
+}
+
+.tile {
+    position: absolute;
+    width: var(--tileSize);
+    height: var(--tileSize);
+    border: 1px solid #000;
+}
+
+.rock, .tree, .enemy, .coin, .exit {
+    position: relative;
+    width: calc(var(--tileSize) * 0.6);
+    height: calc(var(--tileSize) * 0.6);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.rock {
+    background-color: #6f6f6f;
+}
+
+.tree {
+    background-color: #0c570c;
+}
+
+.enemy {
+    position: absolute;
+    transition: all calc(var(--tickLength));
+    width: calc(var(--tileSize) * 0.4);
+    height: calc(var(--tileSize) * 0.4);
+    background-color: #c10909;
+}
+
+.coin {
+    width: calc(var(--tileSize) * 0.4);
+    height: calc(var(--tileSize) * 0.4);
+    background-color: #c1bb0f;
+}
+
+.exit {
+    width: calc(var(--tileSize) * 0.8);
+    height: calc(var(--tileSize) * 0.8);
+    background-color: #683f09;
+}
