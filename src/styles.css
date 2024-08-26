@@ -35,11 +35,27 @@
     border-color: #185bb3 transparent transparent transparent;
 }
 
-#energyBar, #healthBar, #coinBar {
+#energyBar, #healthBar, #coinBar, #experienceBar, #experienceBarOutline {
     position: absolute;
     top: 10px;
     left: 10px;
     display: flex;
+    border: 1px solid #a4a4a4;
+}
+
+#experienceBar {
+    background-color: rgb(48, 210, 218);
+    height: 20px;
+    width: 0px;
+    top: calc(var(--hudSize) * 4);
+    transition: width 0.5s;
+    border: none;
+}
+
+#experienceBarOutline {
+    height: 20px;
+    width: calc(var(--hudSize) * 5);
+    top: calc(var(--hudSize) * 4);
     border: 1px solid #a4a4a4;
 }
 
@@ -68,7 +84,9 @@
 }
 
 #coinBar {
-    top: calc(var(--hudSize) * 3.7);
+    bottom: calc(var(--hudSize) * 1);
+    width: calc(var(--hudSize) * 15);
+    top: auto;
 }
 
 #player.attackReady {
@@ -132,7 +150,7 @@
 }
 
 .rock, .tree, .enemy, .coin, .exit {
-    position: relative;
+    position: absolute;
     width: calc(var(--tileSize) * 0.6);
     height: calc(var(--tileSize) * 0.6);
     top: 50%;

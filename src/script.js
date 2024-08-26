@@ -14,6 +14,9 @@ class Player {
         this.maxInvincibility = 20;
         this.invincibility = this.maxInvincibility;
         this.energyRegen = 0.1;
+        this.level = 1;
+        this.maxExp = this.level ** 1.5 + 2;
+        this.exp = 0;
 
         // // Create a new image object for the player sprite
         // this.sprite = new Image();
@@ -25,6 +28,26 @@ class Player {
     // draw() {
     //     this.game.ctx.drawImage(this.sprite, this.position.x, this.position.y, this.game.tileSize, this.game.tileSize);
     // }
+
+    gainExp(exp) {
+        this.exp += exp;
+        if (this.exp >= this.maxExp) {
+            this.levelUp();
+        }
+    }
+
+    levelUp() {
+        this.level++;
+        this.maxExp = this.level ** 1.5 + 2;
+        this.exp = 0;
+        this.maxHealth = this.level + 5;
+        this.health = this.maxHealth;
+        this.maxEnergy = this.level + 5;
+        this.energy = this.maxEnergy;
+        this.speed = this.level + 10;
+        this.energyRegen = this.level * 0.1;
+        this.game.updateHUD();
+    }
 
     updateDirection() {
         switch (this.direction) {
@@ -84,25 +107,53 @@ class Player {
         }
     
         var loadNextMap = false;
-        if (nextX < 0 && this.game.worldPosition.x > 0 && this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x - 1] !== 0 && nextY < this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x - 1].mapSize.height) {
-            this.game.worldPosition.x--;
+        if (nextX < -0.3 && this.game.worldPosition.x > 0 && this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x - 1] !== 0 && nextY < this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x - 1].mapSize.height) {
             loadNextMap = true;
-            this.position.x = this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x].mapSize.width - 1;
+            for (var child of this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x - 1].mapArray[Math.round(this.position.y)][this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x - 1].mapSize.width - 1].element.children) {
+                if (child.classList.contains('rock')) {
+                    loadNextMap = false;
+                }
+            }
+            if (loadNextMap) {
+                this.game.worldPosition.x--;
+                this.position.x = this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x].mapSize.width - 0.7;
+            }
         }
-        else if (nextX > this.game.map.mapSize.width - 1 && this.game.worldPosition.x < this.game.worldMapSize.width - 1 && this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x + 1] !== 0 && nextY < this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x + 1].mapSize.height) {
-            this.game.worldPosition.x++;
+        else if (nextX > this.game.map.mapSize.width - 0.7 && this.game.worldPosition.x < this.game.worldMapSize.width - 1 && this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x + 1] !== 0 && nextY < this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x + 1].mapSize.height) {
             loadNextMap = true;
-            this.position.x = 0;
+            for (var child of this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x + 1].mapArray[Math.round(this.position.y)][0].element.children) {
+                if (child.classList.contains('rock')) {
+                    loadNextMap = false;
+                }
+            }
+            if (loadNextMap) {
+                this.game.worldPosition.x++;
+                this.position.x = -0.3;
+            }
         }
-        else if (nextY < 0 && this.game.worldPosition.y > 0 && this.game.worldMap[this.game.worldPosition.y - 1][this.game.worldPosition.x] !== 0 && nextX < this.game.worldMap[this.game.worldPosition.y - 1][this.game.worldPosition.x].mapSize.width) {
-            this.game.worldPosition.y--;
+        else if (nextY < -0.3 && this.game.worldPosition.y > 0 && this.game.worldMap[this.game.worldPosition.y - 1][this.game.worldPosition.x] !== 0 && nextX < this.game.worldMap[this.game.worldPosition.y - 1][this.game.worldPosition.x].mapSize.width) {
             loadNextMap = true;
-            this.position.y = this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x].mapSize.height - 1;
+            for (var child of this.game.worldMap[this.game.worldPosition.y - 1][this.game.worldPosition.x].mapArray[this.game.worldMap[this.game.worldPosition.y - 1][this.game.worldPosition.x].mapSize.height - 1][Math.round(this.position.x)].element.children) {
+                if (child.classList.contains('rock')) {
+                    loadNextMap = false;
+                }
+            }
+            if (loadNextMap) {
+                this.game.worldPosition.y--;
+                this.position.y = this.game.worldMap[this.game.worldPosition.y][this.game.worldPosition.x].mapSize.height - 0.7;
+            }
         }
-        else if (nextY > this.game.map.mapSize.height - 1 && this.game.worldPosition.y < this.game.worldMapSize.height - 1 && this.game.worldMap[this.game.worldPosition.y + 1][this.game.worldPosition.x] !== 0 && nextX < this.game.worldMap[this.game.worldPosition.y + 1][this.game.worldPosition.x].mapSize.width) {
-            this.game.worldPosition.y++;
+        else if (nextY > this.game.map.mapSize.height - 0.7 && this.game.worldPosition.y < this.game.worldMapSize.height - 1 && this.game.worldMap[this.game.worldPosition.y + 1][this.game.worldPosition.x] !== 0 && nextX < this.game.worldMap[this.game.worldPosition.y + 1][this.game.worldPosition.x].mapSize.width) {
             loadNextMap = true;
-            this.position.y = 0;
+            for (var child of this.game.worldMap[this.game.worldPosition.y + 1][this.game.worldPosition.x].mapArray[0][Math.round(this.position.x)].element.children) {
+                if (child.classList.contains('rock')) {
+                    loadNextMap = false;
+                }
+            }
+            if (loadNextMap) {
+                this.game.worldPosition.y++;
+                this.position.y = -0.3;
+            }
         }
         if (loadNextMap) {
             this.game.map.clear();
@@ -225,12 +276,15 @@ class Enemy {
         this.game = game;
         this.position = { x: x, y: y };
         this.speed = speed;
+        this.attack = 1;
+        this.expValue = 1;
         this.element = document.createElement('div');
         this.element.className = 'enemy';
     }
 
     remove() {
         this.element.remove();
+        this.game.player.gainExp(this.expValue);
         new Coin(this.game, this.position.x, this.position.y);
         const index = this.game.map.enemies.indexOf(this);
         if (index !== -1) {
@@ -243,7 +297,7 @@ class Enemy {
             return;
         }
         if (Math.abs(this.game.player.position.x - this.position.x) < 0.5 && Math.abs(this.game.player.position.y - this.position.y) < 0.5) {
-            this.game.player.takeDamage(1);
+            this.game.player.takeDamage(this.attack);
             return;
         }
         var directionX = this.game.player.position.x - this.position.x;
@@ -258,7 +312,7 @@ class Enemy {
         var nextY = this.position.y + directionY * moveAmount;
 
         var canMove = true;
-        if (nextX < 0 || nextX >= this.game.map.mapSize.width || nextY < 0 || nextY >= this.game.map.mapSize.height) {
+        if (nextX < -0.3 || nextX > this.game.map.mapSize.width - 0.7 || nextY < -0.3 || nextY >= this.game.map.mapSize.height - 0.7) {
             canMove = false;
         } else {
             for (var child of this.game.map.mapArray[Math.round(nextY)][Math.round(nextX)].element.children) {
@@ -268,7 +322,6 @@ class Enemy {
                 }
             }
             if (!canMove) {
-                console.log('moving vertically')
                 canMove = true;
                 nextX = this.position.x;
                 nextY = this.position.y + directionY * moveAmount;
@@ -280,7 +333,6 @@ class Enemy {
                 }
             }
             if (!canMove) {
-                console.log('moving horizontally')
                 canMove = true;
                 nextX = this.position.x + directionX * moveAmount;
                 nextY = this.position.y;
@@ -338,7 +390,6 @@ class Map {
     load() {
         this.game.element.appendChild(this.element);
         this.element.appendChild(this.game.player.element);
-        this.game.player.energy = this.game.player.maxEnergy;
         this.game.player.element.style.left = (this.game.player.position.x * this.tileSize + this.tileSize / 2) + 'px';
         this.game.player.element.style.top = (this.game.player.position.y * this.tileSize + this.tileSize / 2) + 'px';
         document.documentElement.style.setProperty('--tileSize', this.tileSize + 'px');
@@ -439,7 +490,7 @@ class Game {
             fire: false,
         };
 
-        this.hudSize = Math.floor(document.documentElement.clientWidth / 20);
+        this.hudSize = Math.min(Math.floor(document.documentElement.clientHeight / 20), Math.floor(document.documentElement.clientWidth / 20));
 
         this.element = document.createElement('div');
         this.element.id = 'gameWindow';
@@ -470,6 +521,13 @@ class Game {
         this.coinBar = document.createElement('div');
         this.coinBar.id = 'coinBar';
         this.element.appendChild(this.coinBar);
+
+        this.experienceBar = document.createElement('div');
+        this.experienceBar.id = 'experienceBar';
+        this.element.appendChild(this.experienceBar);
+        this.experienceBarOutline = document.createElement('div');
+        this.experienceBarOutline.id = 'experienceBarOutline';
+        this.element.appendChild(this.experienceBarOutline);
 
         this.player = new Player(this, 5, 5, 10);
         this.loadNewWorld();
@@ -572,6 +630,7 @@ class Game {
             }
         }
         this.map.load();
+        this.player.energy = this.player.maxEnergy;
     }
 
     checkWin() {
@@ -607,6 +666,7 @@ class Game {
         this.updateEnergyBar();
         this.updateHealthBar();
         this.updateCoinBar();
+        this.updateExperienceBar();
     }
 
     updateMinimap() {
@@ -672,6 +732,10 @@ class Game {
             square.classList.add('square');
             this.coinBar.appendChild(square);
         }
+    }
+
+    updateExperienceBar() {
+        this.experienceBar.style.width = (this.player.exp / this.player.maxExp * this.experienceBarOutline.clientWidth) + 'px';
     }
 
     updateGame() {
